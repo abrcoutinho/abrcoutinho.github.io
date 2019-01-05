@@ -1,0 +1,44 @@
+body {
+	display: flex;
+	flex-wrap: wrap;
+	color: white;
+	font: 16pt sans-serif;
+	background-color: pink;
+	border: dotted 8px grey;
+	border-radius: 6px;
+	padding: 20px;
+}
+body * {
+	border: solid 4px grey;
+	border-radius: 5px;
+	margin: 5px 0 0 0;
+	padding: 10px;
+	box-sizing: border-box;
+	flex-basis: 100%;
+}
+header {
+	border-color: #73ef73;
+}
+nav {
+	border-color: red;
+}
+article {
+	border-color: blue;
+	height: 500px;
+	flex-basis: 70%;
+	margin-right: 5px;
+	display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+div {
+	border-color: orange;
+	height: 500px;
+	flex: 1 1 auto;
+}
+section {
+	border-color: purple;
+}
+footer {
+	align-self: flex-end;
+}
