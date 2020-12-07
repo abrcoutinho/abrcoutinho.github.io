@@ -1,0 +1,196 @@
+
+// fonts
+@import url('https://fonts.googleapis.com/css?family=Mukta:400,800')
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,700&display=swap')
+$font:        'Mukta', sans-serif
+$serif:       'Playfair Display', serif
+
+// vars
+$darkblue:    #061F39
+$black:       #343434
+$green:       #3ADBE7
+
+$ease:        cubic-bezier(.5,0,0,1)
+
+// resets
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, a, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, nav, section, menu, time, mark, audio, video, canvas
+  margin:     0
+  padding:    0
+  border:     0
+  outline:     none
+
+html, body
+  -ms-text-size-adjust:     100%
+  -webkit-text-size-adjust: 100%
+  background-color:         #FAFBFC
+  outline:                  none
+
+body, input, textarea
+  font:                     1em $font
+  font-weight:              400
+  -webkit-font-smoothing:   antialiased
+  color:                    $darkblue
+
+a
+  text-decoration:          none
+ul, ol, dl
+  list-style:               none
+button
+  padding:                  0
+  border:                   0
+  background:               transparent
+  cursor:                   pointer
+img
+  display:                  block
+em
+  font-style:               normal
+
+
+// selection
+::selection
+  background:       $green
+  color:            white
+  text-shadow:      none
+::-moz-selection
+  background:       $green
+  color:            white
+  text-shadow:      none
+
+
+// placeholder
+$placeholder: $darkblue
+::-webkit-input-placeholder
+  color: $placeholder
+::-moz-placeholder
+  color: $placeholder
+\:-moz-placeholder
+  color: $placeholder
+\:-ms-input-placeholder
+  color: $placeholder
+
+
+// scrollbars webkit
+::-webkit-scrollbar
+  width:                2px
+::-webkit-scrollbar-track
+  // -webkit-box-shadow:   inset 0 0 6px rgba(0,0,0,.1)
+  border-radius:        4px
+::-webkit-scrollbar-thumb
+  border-radius:        4px
+  background:           $green//transparent
+  // -webkit-box-shadow:   inset 0 0 6px rgba(0,0,0,.5)
+::-webkit-scrollbar-thumb:window-inactive
+  background:           $green//transparent
+
+
+%border-box
+  -webkit-box-sizing:   border-box
+  -moz-box-sizing:      border-box
+  box-sizing:           border-box
+@mixin border-box
+  -webkit-box-sizing:   border-box
+  -moz-box-sizing:      border-box
+  box-sizing:           border-box
+
+%transition
+  $transition:          all 0.5s $ease
+  -webkit-transition:   $transition
+  transition:           $transition
+@mixin transition
+  $transition:          all 0.5s $ease
+  -webkit-transition:   $transition
+  transition:           $transition
+
+%clear
+  &:after
+    height:             0
+    clear:              both
+    content:            "."
+    display:            block
+    font-size:          0
+    visibility:         hidden
+    position:           initial
+
+@mixin flexbox
+  display:              -webkit-flex
+  display:              flex
+@mixin flex($values)
+  -webkit-flex:         $values
+  flex:                 $values
+@mixin order($val)
+  -webkit-order:        $val
+  order:                $val
+
+@mixin translate($val1, $val2)
+  -webkit-transform:    translate($val1, $val2)
+  -moz-transform:       translate($val1, $val2)
+  -ms-transform:        translate($val1, $val2)
+  -o-transform:         translate($val1, $val2)
+  transform:            translate($val1, $val2)
+
+%pseudoelm
+  content: ''
+  position: absolute
+
+%title_symbol
+  &::before
+    @extend %pseudoelm
+    width: 40px
+    height: 35px
+    background: url(../img/symbol.svg) no-repeat center
+      size: contain
+    top: -50px
+
+%button
+  color: $darkblue
+  background: $green
+  font-weight: 800
+  font-size: 1em
+  padding: 8px 25px
+  border-radius: 2px
+  display: inline-block
+  position: relative
+  overflow: hidden
+  box-shadow: 3px 3px 20px rgba(black, .3)
+  @extend %transition
+
+  &::before
+    content: ''
+    width: 100%
+    height: 0
+    background: white
+    position: absolute
+    top: 0
+    left: 0
+    z-index: -1
+    @extend %transition
+
+  &:hover
+    transform: scale(1.05)
+
+    &::before
+      height: 100%
+
+
+
+// Animate on scroll
+.slide-in
+  opacity: 0
+
+.align-left
+  @include translate(-30%, 0)
+.align-right
+  @include translate(30%, 0)
+.align-up
+  @include translate(0, 50px)
+
+.active
+  opacity: 1
+  @include translate(0, 0)
+  transition: all .8s $ease .4s
+
+
+// Sticky elements
+.stick
+  position: fixed
+  top: 0
