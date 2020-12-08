@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+  <meta charset="utf-8">
+  <title>Maplink Platform | Let our APIs optimize your transport | Planning API</title>
+
+  <meta name="author" content="Maplink">
+  <meta name="description" content="Tools for managing the movement of people and goods optimizing distance, time and resources taking multiple constraints into account.">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="16x16">
+	<link rel="stylesheet" href="../../css/layout.css">
+	
+</head>
+
+
+	<body>
+
+		<header id="header">
+  <nav>
+    <ul class="social">
+      <li><a href="../../index.html" title="Maplink Platform"><img src="../../img/symbol_white.svg" alt="Platform"></a></li>
+      <li><a href="" title="LinkedIn" target="_blank">&nbsp;</a></li>
+      <li><a href="" title="Facebook" target="_blank">&nbsp;</a></li>
+      <li><a href="" title="Blog" target="_blank">Blog</a></li>
+    </ul>
+    <ul class="menu">
+      <li><a href="#plans" title="Planos">Planos</a></li>
+      <li><a href="../index.html" title="Documentação">Documentação</a></li>
+      <li><a href="" title="Faqs">Faqs</a></li>
+      <li><a href="" title="Fórum">Fórum</a></li>
+      <!-- <li>SEARCH</li> -->
+    </ul>
+    <ul class="signup">
+      <li id="langs">
+        <a href="" title="">PT</a>
+        <a href="" title="">EN</a>
+        <a href="" title="">ES</a>
+        <a href="" title="">FR</a>
+      </li>
+      <li><a href="" title="Entrar">Entrar</a></li>
+      <li><a href="" title="Inscreva-se grátis">Inscreva-se grátis</a></li>
+    </ul>        
+  </nav>
+  <button type="button">
+    <span></span>
+    <span></span>
+    <span></span>
+    <div></div>
+  </button>
+</header>
+
+
+		<main id="doc">
+  <div>
+
+    <!-- Side menu -->
+    <aside>
+      <figure><a href="../../index.html" title="Platform"><img src="../../img/platform-blue.svg" alt="Maplink Platform"></a></figure>
+
+      <div class="sticky_column">
+        <small>APIs:</small>
+
+        <ul id="side-menu">
+          <!-- Trip -->
+          <li class="trip">
+            <a href="../trip/index.html" title="Trip API">Trip</a>
+
+            <ol id="trip-submenu">
+              <li><a href="#trip-intro" title="introduction">Introduction</a></li>
+              <li><a href="#trip-posting-a-problem" title="Posting a problem">Posting a problem</a></li>
+              <li><a href="#trip-getting-a-problem" title="Getting a problem">Getting a problem</a></li>
+              <li><a href="#trip-getting-feedback" title="Getting feedback">Getting feedback</a></li>
+              <li><a href="#trip-getting-events" title="Getting events">Getting events</a></li>
+              <li><a href="#trip-getting-a-solution" title="Getting a solution">Getting a solution</a></li>
+            </ol>
+          </li>
+
+          <!-- Planning -->
+          <li class="planning">
+            <a href="/documentation/planning/" title="Planning API">Planning</a>
+
+            <ol id="planning-submenu">
+              <li><a href="#planning-intro" title="introduction">Introduction</a></li>
+              <li><a href="#planning-posting-a-problem" title="Posting a problem">Posting a problem</a></li>
+              <li><a href="#planning-getting-a-problem" title="Getting a problem">Getting a problem</a></li>
+              <li><a href="#planning-getting-feedback" title="Getting feedback">Getting feedback</a></li>
+              <li><a href="#planning-getting-events" title="Getting events">Getting events</a></li>
+              <li><a href="#planning-getting-a-solution" title="Getting a solution">Getting a solution</a></li>
+            </ol>
+          </li>
+        </ul>
+      </div>
+
+    </aside>
+
+    <!-- Article -->
+    <article>
+      <h1>Planning API</h1>
+      <!-- Page bread crumb -->
+<ul>
+  <li><a href="http://developers.maplink.global" title="Platform">Platform</a></li>
+  <li><a href="http://developers.maplink.global/documentation" title="Documentation">Documentation</a></li>
+  <li>Planning API</li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p>The <strong>Planning API</strong> is a powerful <em>N to N optimization service</em> with many vehicle types like cars, trucks and that takes various constraints in consideration.</p>
+
+<hr />
+
+<ul class="cards">
+  <li>
+    <h2>Use cases</h2>
+    <p>The Planning API can be used to solve <strong>multiple vehicle routing</strong> problems (VRP) and <strong>traveling salesman</strong> problems (TSP), considering business specific constraints such as time windows, multiple depots, multiple capacity dimensions, driver skills etc. defined by the user. It is applicable to solving both small and large scale problems.</p>
+  </li>
+  <li>
+    <h2>First steps</h2>
+    <p>Before you start developing with the Planning API, review the <strong>authentication</strong> requirements (you need an API key) and the <strong>API usage limits</strong>.</p>
+  </li>
+</ul>
+
+<h2 id="planning-intro">Introduction</h2>
+<p>The Planning API works in 3 steps</p>
+<ol>
+  <li>Post your logistic problem;</li>
+  <li>Check the processing steps and status of the problem until a solution be available which could be through getting the status or a callback;</li>
+  <li>Get the solution for your problem.</li>
+</ol>
+
+<h2 id="planning-posting-a-problem">Posting a problem</h2>
+<p>To solve a logistic problem optimizing the operations and finding the best execution order, you need to send the problem to be solved by our services through the <strong>POST</strong><em>/problems</em> method.</p>
+
+<h3 id="parameters">Parameters</h3>
+<p>Certain parameters are required while others are optional. The list of parameters and their possible values are enumerated below.</p>
+
+<h4 id="mandatory-parameters">Mandatory Parameters</h4>
+<h5 id="optimizationprofile"><code class="highlighter-rouge">optimizationProfile</code></h5>
+<p>Indicates the default data that should be considered to optimize the route(s).
+The <code class="highlighter-rouge">optimizationProfile</code> parameter supports a profile id that should be previously defined during the API configuration with Maplink’s onboarding team.</p>
+
+<h5 id="tripsprofile"><code class="highlighter-rouge">tripsProfile</code></h5>
+<p>Indicates the default data that should be considered to calculate the distance matrix between depots and sites.
+The <code class="highlighter-rouge">tripsProfile</code> parameter supports a profile id that should be previously defined during the API configuration with Maplink’s onboarding team.</p>
+
+<h5 id="startdate"><code class="highlighter-rouge">startDate</code></h5>
+<p>Indicates the specific date and time when route problem should be executed.</p>
+
+<h5 id="legislationprofile"><code class="highlighter-rouge">legislationProfile</code></h5>
+<p>Indicates that the optimization should take the drivers legislation into account.</p>
+
+<table>
+  <tr>
+    <td><code>name</code></td>
+    <td>Profile name. Used for referencing and identification on result. It must be unique.</td>
+  </tr>
+  <tr>
+    <td><code>maxContinuousDrivingTime</code></td>
+    <td>Indicates the maximum continuous driving time without pause, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>maxDrivingTimeBetweenTwoRests</code></td>
+    <td>Indicates the maximum continuous driving time without rest, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>drivingPauseDuration</code></td>
+    <td>Indicates the driving pause duration, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>drivingPauseDurationCuts</code></td>
+    <td>Indicates if the driving pause duration can/should be splitted, and the duration of which cut, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>drivingRestDuration</code></td>
+    <td>Indicates the driving rest duration, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>drivingRestDurationCuts</code></td>
+    <td>Indicates if the driving rest duration can/should be splitted, and the duration of which cut, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>maxContinuousWorkingTime</code></td>
+    <td>Indicates the maximum continuous working time without pause, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>maxWorkingTimeBetweenTwoRests</code></td>
+    <td>Indicates the maximum continuous working time without rest, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>workingPauseDuration</code></td>
+    <td>Indicates the working pause duration, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>workingPauseDurationCuts</code></td>
+    <td>Indicates if the working pause duration can/should be splitted, and the duration of which cut, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>workingRestDuration</code></td>
+    <td>Indicates the working rest duration, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>workingRestDurationCuts</code></td>
+    <td>Indicates if the working rest duration can/should be splitted, and the duration of which cut, in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>maxWaitingTime</code></td>
+    <td>Indicates the maximum time waiting at the site to execute an operation.</td>
+  </tr>
+  <tr>
+    <td><code>waitingIsWorking</code></td>
+    <td>Indicates if the time waiting at the side is considered as working time and supports the following arguments: <code>TRUE</code>, <code>FALSE</code></td>
+  </tr>
+</table>
+
+<h5 id="logisticconstraint"><code class="highlighter-rouge">LogisticConstraint</code></h5>
+<p>Indicates the constraints that should be taking into account for each depot or site that will be in the optimization.The <code class="highlighter-rouge">LogisticConstraint</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>name</code></td>
+    <td>Constraint name. Used for referencing and identification on result. It must be unique.</td>
+  </tr>
+  <tr>
+    <td><code>siteLoadingFixedTime</code></td>
+    <td>Indicates a fixed loading time in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>siteUnloadingFixedTime</code></td>
+    <td>Indicates a fixed unloading time in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>loadingPositionInRoute</code></td>
+    <td>Indicates the operation position in the route if the operation type is <code>COLLECTION</code>.</td>
+  </tr>
+  <tr>
+    <td><code>unloadingPositionInRoute</code></td>
+    <td>Indicates the operation position in the route if the operation type is <code>DELIVERY</code>.</td>
+  </tr>
+  <tr>
+    <td><code>loadingPositionInTimeWindow</code></td>
+    <td>Indicates the operation position in the time window if the operation type is <code>COLLECTION</code>.</td>
+  </tr>
+  <tr>
+    <td><code>unloadingPositionInTimeWindow</code></td>
+    <td>Indicates the operation position in the time window if the operation type is <code>DELIVERY</code>.</td>
+  </tr>
+  <tr>
+    <td><code>loadingMaxSize</code></td>
+    <td>Indicates the max vehicle size that a site supports if the operation type is <code>COLLECTION</code>.</td>
+  </tr>
+  <tr>
+    <td><code>unloadingMaxSize</code></td>
+    <td>Indicates the max vehicle size that a site supports if the operation type is <code>DELIVERY</code>.</td>
+  </tr>
+</table>
+
+<h5 id="product"><code class="highlighter-rouge">Product</code></h5>
+<p>Indicates the products that will be collected or delivered in each operation. The <code class="highlighter-rouge">Product</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>name</code></td>
+    <td>Product name. Used for referencing and identification on result. It must be unique.</td>
+  </tr>
+  <tr>
+    <td><code>type</code></td>
+    <td>Type of the product. Can be used for separation purposes.</td>
+  </tr>
+</table>
+
+<h5 id="sites"><code class="highlighter-rouge">sites</code></h5>
+<p>Indicates the client sites(s) that should be considered in the optimization. The <code class="highlighter-rouge">sites</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>name</code></td>
+    <td>Site name. Used for referencing and identification on result. It must be unique.</td>
+  </tr>
+  <tr>
+    <td><code>coordinates</code></td>
+    <td>Indicates the latitude and longitude point where the site is located.</td>
+  </tr>
+  <tr>
+    <td><code>logisticConstraints</code></td>
+    <td>Reference to the Logistic constraint name, previously defined in the <code>LogisticConstraint</code> parameter.</td>
+  </tr>
+</table>
+
+<h5 id="depots"><code class="highlighter-rouge">depots</code></h5>
+<p>Indicates the depot(s) that should be considered in the optimization. The <code class="highlighter-rouge">depots</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>name</code></td>
+    <td>Depot name. Used for referencing and identification on result. It must be unique.</td>
+  </tr>
+  <tr>
+    <td><code>coordinates</code></td>
+    <td>Indicates the latitude and longitude point where the depot is located.</td>
+  </tr>
+  <tr>
+    <td><code>logisticConstraints</code></td>
+    <td>Reference to the Logistic constraint name, previously defined in the <code>LogisticConstraint</code> parameter.</td>
+  </tr>
+</table>
+
+<h5 id="vehicletypes"><code class="highlighter-rouge">vehicleTypes</code></h5>
+<p>Indicates the types of vehicle that should be considered in the optimization. The <code class="highlighter-rouge">vehicleTypes</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>name</code></td>
+    <td>Vehicle type name. Used for referencing and identification on result. It must be unique.</td>
+  </tr>
+  <tr>
+    <td><code>maxVolume</code></td>
+    <td>Indicates the maximum volume in cubic meters.</td>
+  </tr>
+  <tr>
+    <td><code>maxWeight</code></td>
+    <td>Indicates the maximum weight in tons.</td>
+  </tr>
+  <tr>
+    <td><code>size</code></td>
+    <td>Indicates the size of the vehicle type.</td>
+  </tr>
+</table>
+
+<h5 id="vehicles"><code class="highlighter-rouge">vehicles</code></h5>
+<p>Indicates the vehicle that should be considered in the optimization. The <code class="highlighter-rouge">vehicles</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>name</code></td>
+    <td>Vehicle name. Used for referencing and identification on result. It must be unique.</td>
+  </tr>
+  <tr>
+    <td><code>vehicleType</code></td>
+    <td>Reference to the vehicle type name, previously defined in the <code>vehicleTypes</code> parameter.</td>
+  </tr>
+  <tr>
+    <td><code>legislationProfile</code></td>
+    <td>Reference to the legislation profile name, previously defined in the <code>legislationProfiles</code> parameter.</td>
+  </tr>
+  <tr>
+    <td><code>availablePeriods</code></td>
+    <td>Indicates the period that the vehicle is available.</td>
+  </tr>
+</table>
+
+<h5 id="availableperiods"><code class="highlighter-rouge">availablePeriods</code></h5>
+<p>Indicates the time window that a vehicle is available.  The <code class="highlighter-rouge">availablePeriods</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>departureSite</code></td>
+    <td>Indicates the site from where the vehicle should depart.</td>
+  </tr>
+  <tr>
+    <td><code>arrivalSite</code></td>
+    <td>Indicates the site where the vehicle should arrive by the end of a route.</td>
+  </tr>
+  <tr>
+    <td><code>timeWindow</code></td>
+    <td>Indicates the starting and ending time of the vehicle availability.</td>
+  </tr>
+  <tr>
+    <td><code>maxRoutesNumber</code></td>
+    <td>Indicates the maximum number of routes that the vehicle can execute during the available period.</td>
+  </tr>
+</table>
+
+<h5 id="operations"><code class="highlighter-rouge">operations</code></h5>
+<p>Indicates the operations of collect or delivery that should be considered in the optimization. The <code class="highlighter-rouge">operations</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>id</code></td>
+    <td>Used for identification on result. It must be unique.</td>
+  </tr>
+  <tr>
+    <td><code>priority</code></td>
+    <td>Indicates the operation priority compared to the others operations. Higher values mean higher priority.</td>
+  </tr>
+  <tr>
+    <td><code>weight</code></td>
+    <td>Indicates the product weight in kilograms.</td>
+  </tr>
+  <tr>
+    <td><code>volume</code></td>
+    <td>Indicates the product volume in cubic meters.</td>
+  </tr>
+  <tr>
+    <td><code>product</code></td>
+    <td>Indicates the product that must be used in the operation. Reference to the product name, previously defined in the <code>products</code> parameter.</td>
+  </tr>
+  <tr>
+    <td><code>type</code></td>
+    <td>Indicates if the operation is a collection or a delivery and supports the following arguments: <code>COLLECTION</code>, <code>DELIVERY</code>,</td>
+  </tr>
+  <tr>
+    <td><code>depotSite</code></td>
+    <td>Indicates the depot that must be used in the operation. Reference to the depot name, previously defined in the <code>depots</code> parameter.</td>
+  </tr>
+  <tr>
+    <td><code>customerSite</code></td>
+    <td>Indicates the site that must be used in the operation. Reference to the site name, previously defined in the <code>sites</code> parameter.</td>
+  </tr>
+  <tr>
+    <td><code>customerTimeWindows</code></td>
+    <td>Indicates the customer time window in which the operation may take place.</td>
+  </tr>
+  <tr>
+    <td><code>customerHandlingDuration</code></td>
+    <td>Indicates the time spent in the customer in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>depotHandlingDuration</code></td>
+    <td>Indicates the time spent in the depot in seconds.</td>
+  </tr>
+  <tr>
+    <td><code>preAllocatedVehicleName</code></td>
+    <td>Indicates a predefined vehicle that should do the operation. Reference to the vehicle name, previously defined in the <code>vehicles</code> parameter.</td>
+  </tr>
+</table>
+
+<h4 id="optional-parameters">Optional Parameters</h4>
+<h5 id="callback"><code class="highlighter-rouge">callback</code></h5>
+<p>Allow to register an URL to receive a callback with the problem solving status.</p>
+
+<table>
+  <tr>
+    <td><code>password</code></td>
+    <td>Access key to client’s system if it’s necessary.</td>
+  </tr>
+  <tr>
+    <td><code>url</code></td>
+    <td>URL that will receive the problem solving status.</td>
+  </tr>
+  <tr>
+    <td><code>user</code></td>
+    <td>User access to client’s system if it’s necessary.</td>
+  </tr>
+</table>
+
+<p><strong>Note:</strong> If you opt for using the ‘callback’ parameter in the <strong>POST</strong><em>/problems</em>, check the GET/events responde description to know the parameters you will receive in return.</p>
+
+<h3 id="response-parameters">Response Parameters</h3>
+<p>The list of parameters and their possible values are enumerated below.</p>
+
+<h5 id="id"><code class="highlighter-rouge">id</code></h5>
+<p>The <code class="highlighter-rouge">id</code> parameter is the identification of the problem that should be used to get the problem solving status and the problem solution.</p>
+
+<h2 id="planning-getting-a-problem">Getting a problem</h2>
+<h3 id="request-parameters">Request Parameters</h3>
+<p>Certain parameters are required while others are optional. The list of parameters and their possible values are enumerated below.</p>
+
+<h4 id="mandatory-parameters-1">Mandatory Parameters</h4>
+<h5 id="id-1"><code class="highlighter-rouge">id</code></h5>
+<p>The <code class="highlighter-rouge">id</code> parameter is the identification of the problem that you get as response of posting a problem.</p>
+
+<h3 id="response-parameters-1">Response Parameters</h3>
+<p>Consult the <a href="#planning-posting-a-problem" title="Posting Problem Request">Posting Problem Request</a> Parameters.</p>
+
+<h2 id="planning-getting-feedback">Getting feedback</h2>
+<p>To follow the process of finding a solution for the problem, you should check the processing status through <strong>GET</strong><em>/jobs</em> method.</p>
+
+<h3 id="request-parameters-1">Request Parameters</h3>
+<p>Certain parameters are required while others are optional. The list of parameters and their possible values are enumerated below.</p>
+
+<h4 id="mandatory-parameters-2">Mandatory Parameters</h4>
+<h5 id="jobid"><code class="highlighter-rouge">jobId</code></h5>
+<p>The <code class="highlighter-rouge">jobId</code> parameter is the identification of the problem that you get as response of posting a problem.</p>
+
+<h3 id="response-parameters-2">Response Parameters</h3>
+<p>The list of parameters and their possible values are enumerated below.</p>
+
+<h5 id="job"><code class="highlighter-rouge">job</code></h5>
+<p>Indicates the main information about the process to solve the problem</p>
+
+<table>
+  <tr>
+    <td><code>error</code></td>
+    <td>Indicates the last error occurred during the processing.</td>
+  </tr>
+  <tr>
+    <td><code>id</code></td>
+    <td>Indicates the processing ID.</td>
+  </tr>
+  <tr>
+    <td><code>percent</code></td>
+    <td>The current percentage of the processing done.</td>
+  </tr>
+  <tr>
+    <td><code>status</code></td>
+    <td>Indicates the current status of the processing.</td>
+  </tr>
+  <tr>
+    <td><code>step</code></td>
+    <td>Indicate the current step inside the status.</td>
+  </tr>
+  <tr>
+    <td><code>warning</code></td>
+    <td>Indicate a warning of the processing.</td>
+  </tr>
+</table>
+
+<p><strong>Feedback Status</strong></p>
+
+<p>For each step during the problem solving a different status is presented in the <strong>GET</strong><em>/jobs</em> response.</p>
+
+<table>
+  <tr>
+    <td><code>ENQUEUED</code></td>
+    <td>Indicates that the problem is ready to be processed.</td>
+  </tr>
+  <tr>
+    <td><code>PROCESSING</code></td>
+    <td>Indicates that the problem solution is being calculates.</td>
+  </tr>
+  <tr>
+    <td><code>SOLVED</code></td>
+    <td>Indicates that the solution is already available to be goten.</td>
+  </tr>
+  <tr>
+    <td><code>ERROR</code></td>
+    <td>Indicates that an error occurred and it was not possible to calculate the solution.</td>
+  </tr>
+</table>
+
+<h2 id="planning-getting-events">Getting Events</h2>
+<p>To follow the process of finding a solution for the problem, you can check the events which are occurring during the processing through <strong>GET</strong><em>/events</em> method.</p>
+
+<h3 id="request-parameters-2">Request Parameters</h3>
+<p>Certain parameters are required while others are optional. The list of parameters and their possible values are enumerated below.</p>
+
+<h4 id="mandatory-parameters-3">Mandatory Parameters</h4>
+<h5 id="jobid-1"><code class="highlighter-rouge">jobId</code></h5>
+<p>The <code class="highlighter-rouge">jobId</code> parameter is the identification of the problem that you get as response of posting a problem.</p>
+
+<h3 id="response-parameters-3">Response Parameters</h3>
+<p>The list of parameters and their possible values are enumerated below.</p>
+
+<h5 id="job-1"><code class="highlighter-rouge">job</code></h5>
+<p>Indicates the main information about the process to solve the problem.</p>
+
+<table>
+  <tr>
+    <td><code>description</code></td>
+    <td>Indicates a description or value related to the event occurred during the processing.</td>
+  </tr>
+  <tr>
+    <td><code>jobid</code></td>
+    <td>Indicates the processing ID.</td>
+  </tr>
+  <tr>
+    <td><code>type</code></td>
+    <td>
+      Indicates the event type that supports the following arguments:<br />
+      <code>STATUS_CHANGE</code>,<br />
+      <code>ERROR</code>,<br />
+      <code>STEP_CHANGE</code>,<br />
+      <code>PERCENT_CHANGE</code>,<br />
+      <code>WARNING</code>
+    </td>
+  </tr>
+</table>
+
+<h2 id="planning-getting-a-solution">Getting a Solution</h2>
+<p>As soon as you have a <code class="highlighter-rouge">SOLVED</code> status from the <strong>GET</strong><em>/jobs</em> method, you can get the problem solution through <strong>GET</strong><em>/solutions</em> method.</p>
+
+<h3 id="request-parameters-3">Request Parameters</h3>
+<p>Certain parameters are required while others are optional. The list of parameters and their possible values are enumerated below.</p>
+
+<h4 id="mandatory-parameters-4">Mandatory Parameters</h4>
+<h5 id="id-2"><code class="highlighter-rouge">id</code></h5>
+<p>The <code class="highlighter-rouge">id</code> parameter is the identification of the problem that you get as response of posting a problem.</p>
+
+<h3 id="response-parameters-4">Response Parameters</h3>
+<p>The list of parameters and their possible values are enumerated below.</p>
+
+<h5 id="solution"><code class="highlighter-rouge">solution</code></h5>
+<p>Indicates the consolidated information about the solution. The <code class="highlighter-rouge">solution</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>id</code></td>
+    <td>Indicates the problem ID regarding this solution.</td>
+  </tr>
+  <tr>
+    <td><code>clientId</code></td>
+    <td>Indicates the client ID who posted the problem regarding this solution.</td>
+  </tr>
+  <tr>
+    <td><code>createdAt</code></td>
+    <td>Indicates the time and date when the solution was created.</td>
+  </tr>
+  <tr>
+    <td><code>indicators</code></td>
+    <td>Indicates the summary of the calculation. See the detail in the <code>Indicators</code> parameter description.</td>
+  </tr>
+  <tr>
+    <td><code>rejectedOperations</code></td>
+    <td>List of operations that wasn't possible to include in a route.</td>
+  </tr>
+  <tr>
+    <td><code>vehicleRoutes</code></td>
+    <td>Indicates the vehicle that was designated to a route. See the detail in the <code>vehicleRoute</code> parameter description.</td>
+  </tr>
+</table>
+
+<h5 id="indicators"><code class="highlighter-rouge">indicators</code></h5>
+<p>Indicates the summary of the calculation. The <code class="highlighter-rouge">indicators</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>averageOccupancyRateVolume</code></td>
+    <td>Indicates the solution average volume occupancy rate, in cubic meters.</td>
+  </tr>
+  <tr>
+    <td><code>averageOccupancyRateWeight</code></td>
+    <td>Indicates the solution average weight occupancy rate in kilograms.</td>
+  </tr>
+  <tr>
+    <td><code>dayWorkingTotalTime</code></td>
+    <td>Indicates the solution total working time during the day.</td>
+  </tr>
+  <tr>
+    <td><code>nightWorkingTotalTime</code></td>
+    <td>Indicates the solution total working time during the night.</td>
+  </tr>
+  <tr>
+    <td><code>rejectOperationsNumber</code></td>
+    <td>Indicates the quantity of Operations that were rejected in the solution.</td>
+  </tr>
+  <tr>
+    <td><code>routesNumber</code></td>
+    <td>Indicates the quantity of Routes that were created in the solution.</td>
+  </tr>
+  <tr>
+    <td><code>timeWindowNumber</code></td>
+    <td>Indicates the quantity of Time Windows that were used in the solution.</td>
+  </tr>
+  <tr>
+    <td><code>totalCollectingTime</code></td>
+    <td>Indicates the total time destined to execute Collecting Operations.</td>
+  </tr>
+  <tr>
+    <td><code>totalDeliveringTime</code></td>
+    <td>Indicates the total time destined to execute Delivering Operations.</td>
+  </tr>
+  <tr>
+    <td><code>totalDistance</code></td>
+    <td>Indicates the total distance.</td>
+  </tr>
+  <tr>
+    <td><code>totalDrivingTime</code></td>
+    <td>Indicates the total driving time.</td>
+  </tr>
+  <tr>
+    <td><code>totalLoadingTime</code></td>
+    <td>Indicates the total loading time.</td>
+  </tr>
+  <tr>
+    <td><code>totalRestTime</code></td>
+    <td>Indicates the total driver’s rest time.</td>
+  </tr>
+  <tr>
+    <td><code>totalServiceTime</code></td>
+    <td>Indicates the total time the drivers will be in service.</td>
+  </tr>
+  <tr>
+    <td><code>totalUnloadingTime</code></td>
+    <td>Indicates the total unloading time.</td>
+  </tr>
+  <tr>
+    <td><code>totalWaitingTime</code></td>
+    <td>Indicates the total waiting time.</td>
+  </tr>
+  <tr>
+    <td><code>totalWorkingTime</code></td>
+    <td>Indicates the total working time.</td>
+  </tr>
+</table>
+
+<h5 id="vehicleroute"><code class="highlighter-rouge">vehicleRoute</code></h5>
+<p>Indicates the route(s) and vehicle that should be used to execute the solution. The <code class="highlighter-rouge">vehicleRoute</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>routes</code></td>
+    <td>Indicates the routes created to solve the problem. Check the detail in the <code>route</code> parameter description.</td>
+  </tr>
+  <tr>
+    <td><code>vehicle</code></td>
+    <td>Indicates vehicles that will be used to execute the routes.</td>
+  </tr>
+</table>
+
+<h5 id="routes"><code class="highlighter-rouge">routes</code></h5>
+<p>Indicates the list of activities that should be done to execute the route. The <code class="highlighter-rouge">routes</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>activities</code></td>
+    <td>Indicates the list of activities that contain steps to be followed in a route. Check the detail in the ‘activities” parameter description.</td>
+  </tr>
+</table>
+
+<h5 id="activities"><code class="highlighter-rouge">activities</code></h5>
+<p>Indicates what should be done in each step of the route. The <code class="highlighter-rouge">activities</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>activity</code></td>
+    <td>
+      Indicates the name of the activity that supports the following arguments:<br />
+      <code>LOADING</code>,<br />
+      <code>DRIVING</code>,<br />
+      <code>DELIVERY</code>,<br />
+      <code>ROUTE_START</code>,<br />
+      <code>ROUTE_END</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>arrivalSite</code></td>
+    <td>Indicates the arrival site where the activity will end if <code>type = driving</code>.</td>
+  </tr>
+  <tr>
+    <td><code>departureSite</code></td>
+    <td>Indicates the departure site where the activity will start if with <code>type = driving</code>.</td>
+  </tr>
+  <tr>
+    <td><code>distance</code></td>
+    <td>Indicates the distance between the departure site and the arrival site.</td>
+  </tr>
+  <tr>
+    <td><code>fixedTimeSite</code></td>
+    <td>Indicates the total duration of an activity with <code>type</code> different from driving.</td>
+  </tr>
+  <tr>
+    <td><code>nominalDuration</code></td>
+    <td>Indicates the total duration of an activity with <code>type = driving</code>.</td>
+  </tr>
+  <tr>
+    <td><code>operations</code></td>
+    <td>Indicates the operations to be executed in the activity.</td>
+  </tr>
+  <tr>
+    <td><code>site</code></td>
+    <td>Indicates the site where the operation will be executed.</td>
+  </tr>
+  <tr>
+    <td><code>timeWindow</code></td>
+    <td>Indicates the time window when the activity will take place. Check the detail in the <code>timeWindow</code> parameter description.</td>
+  </tr>
+  <tr>
+    <td><code>type</code></td>
+    <td>
+      Indicates the type of activity  that supports the following arguments:<br />
+      <code>SITE</code>,<br />
+      <code>DRIVING</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>volume</code></td>
+    <td>Indicates the total volume of the activity.</td>
+  </tr>
+  <tr>
+    <td><code>weight</code></td>
+    <td>Indicates the total weight of the activity.</td>
+  </tr>
+</table>
+
+<h5 id="timewindow"><code class="highlighter-rouge">timeWindow</code></h5>
+<p>Indicates the date and time when the activity will take place. The <code class="highlighter-rouge">timeWindow</code> parameter has the following fields:</p>
+
+<table>
+  <tr>
+    <td><code>end</code></td>
+    <td>Indicates the date and time when the activity will end.</td>
+  </tr>
+  <tr>
+    <td><code>start</code></td>
+    <td>Indicates the date and time when the activity will start.</td>
+  </tr>
+</table>
+
+
+    </article>
+
+  </div>
+</main>
+
+
+    <div id="contact-form">
+  <figure><img src="../../img/platform-blue.svg" alt="Maplink Platform"></figure>
+  <hr>
+  <form name="contato" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="post">
+  <!-- <form name="contato" method="post" action="mailto:abraao.coutinho@maplink.global" enctype="text/plain"> -->
+
+    <!-- Hidden fields -->
+    <input type="hidden" name="oid" value="00Di0000000gpEn">
+    <input type="hidden" name="debug" value=1>
+    <input type="hidden" name="debugEmail" value="patrick.silva@maplink.com.br">
+    <textarea type="hidden" id="00N3100000Gb1T5" name="00N3100000Gb1T5" type="text" wrap="soft" style="display:none">Landing Page Platform</textarea>
+    <input type="text" id="00N0Z00000GwPRv" name="00N0Z00000GwPRv" placeholder="Enter your country" pattern="[A-Za-z\s]+$" name="Country" style="display: none; float: right;">
+    <input id="00Ni000000EHzqO" maxlength="250" name="00Ni000000EHzqO" size="20" type="text" value="Landing Page Platform" style="display:none">
+    <select id="lead_source" name="lead_source" style="display:none">
+      <option value="Inbound" selected>Contact us</option>
+    </select>
+    <select id="00N3100000Fv42Y" name="00N3100000Fv42Y" title="BU" style="display:none">
+      <option value="Logistics">Logistics</option>
+    </select>
+    <select id="00N3100000H1qRE" name="00N3100000H1qRE" title="Portifólio" style="display:none">
+      <option value="Maplink Platform">Maplink Platform</option>
+    </select>
+    <input id="00Ni000000EGdc7" maxlength="255" name="00Ni000000EGdc7" style="display:none" type="text">
+
+    <h1>Contact us</h1>
+    <input type="text" placeholder="Name" pattern="[A-Za-z\s]+$" required id="first_name" name="first_name">
+
+    <div>
+      <input type="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required id="email" name="email">
+      <select id="00Ni000000EGPgF" name="00Ni000000EGPgF">
+        <option value="">Country:</option>
+        <option value="Germany">Germany</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Austria">Austria</option>
+        <option value="Belgium">Belgium</option>
+        <option value="Bolivia">Bolivia</option>
+        <option value="Brazil">Brazil</option>
+        <option value="Canada">Canada</option>
+        <option value="Chile">Chile</option>
+        <option value="Colombia">Colombia</option>
+        <option value="Costa Rica">Costa Rica</option>
+        <option value="Denmark">Denmark</option>
+        <option value="El Salvador">El Salvador</option>
+        <option value="Ecuador">Ecuador</option>
+        <option value="Spain">Spain</option>
+        <option value="U.S">U.S</option>
+        <option value="Finland">Finland</option>
+        <option value="France">France</option>
+        <option value="Netherlands">Netherlands</option>
+        <option value="Ireland">Ireland</option>
+        <option value="Italy">Italy</option>
+        <option value="Luxembourg">Luxembourg</option>
+        <option value="Morocco">Morocco</option>
+        <option value="Mexico">Mexico</option>
+        <option value="Panama">Panama</option>
+        <option value="Paraguay">Paraguay</option>
+        <option value="Peru">Peru</option>
+        <option value="Poland">Poland</option>
+        <option value="Puerto Rico">Puerto Rico</option>
+        <option value="Portugal">Portugal</option>
+        <option value="United Kingdom">United Kingdom</option>
+        <option value="Dominican Republic">Dominican Republic</option>
+        <option value="Switzerland">Switzerland</option>
+        <option value="Uruguay">Uruguay</option>
+        <option value="Venezuela">Venezuela</option>
+        <option value="Others" id="opt36">Others</option>
+      </select>
+    </div>
+
+    <div>
+      <input type="tel" placeholder="Phone" pattern="[0-9]+$" maxlength="18" id="phone" name="phone">
+      <input type="text" placeholder="Company" pattern="[A-Za-z\s]+$" required id="company" name="company">
+    </div>
+
+    <div>
+      <select  id="00Ni000000EGCOl" name="00Ni000000EGCOl" title="Company size:" required>
+        <option value="">Company size:</option>
+        <option value="1 - 10">1 - 10</option>
+        <option value="11 - 50">11 - 50</option>
+        <option value="51 - 200">51 - 200</option>
+        <option value="201 - 1000">201 - 1000</option>
+        <option value="More than 1000">More than 1000</option>
+      </select>
+
+      <select id="00N3100000Gxfhc" name="00N3100000Gxfhc" title="Cargo" required>
+        <option value="">Job role:</option>
+        <option value="Analyst / Consultant">Analyst / Consultant</option>
+        <option value="Coordinator / Supervisor">Coordinator / Supervisor</option>
+        <option value="Developer">Developer</option>
+        <option value="Principal">Principal</option>
+        <option value="Student">Student</option>
+        <option value="Manager">Manager</option>
+        <option value="C-Level">C-Level</option>
+        <option value="Private individual">Private individual</option>
+      </select>
+
+      <select id="industry" name="industry" required>
+        <option value="">Industry:</option>
+        <option value="Advertising Agencies and Media">Advertising Agencies and Media</option>
+        <option value="Agribusiness">Agribusiness</option>
+        <option value="Ecommerce / Retail">Ecommerce / Retail</option>
+        <option value="Education">Education</option>
+        <option value="Financial">Financial</option>
+        <option value="Government">Government</option>
+        <option value="Infrastructure">Infrastructure</option>
+        <option value="Manufacturing">Manufacturing</option>
+        <option value="Oil and gas">Oil and gas</option>
+        <option value="Private individual">Private individual</option>
+        <option value="Health">Health</option>
+        <option value="Insurance">Insurance</option>
+        <option value="Services">Services</option>
+        <option value="Technology">Technology</option>
+        <option value="Telecom">Telecom</option>
+        <option value="Transportation and logistics">Transportation and logistics</option>
+        <option value="Communication Vehicles">Communication Vehicles</option>
+      </select>
+    </div>
+
+    <textarea class="txtarea" placeholder="Message" id="00Ni000000BHk5x" name="00Ni000000BHk5x" required></textarea>
+
+    <input type="submit" name="submit" value="Send">
+
+  </form>
+
+  <!-- Confirmation msg -->
+  <aside>
+    <strong>Message sent successfully.</strong>
+    <button type="button">Ok</button>
+  </aside>
+
+  <button type="button"><!-- Close button --></button>
+</div>
+
+		<footer id="footer">
+  <ul>
+    <li>
+      <article class="slide-in align-left">
+        <h3>Send us a message for more information</h3>
+        <button type="button">Contact us</button>
+        <!-- <a title="Contact us" target="_blank">Contact us</a> -->
+      </article>
+    </li>
+    <li>
+      <article class="slide-in align-right">
+        <h3>See more business solutions at maplink.global</h3>
+        <a href="http://maplink.global" title="Maplink" target="_blank">Maplink</a>
+      </article>
+    </li>
+  </ul>
+  <div>
+    <small>Copyright &copy;2018 Maplink Platform Ltda. All rights reserved</small>
+    <a href="http://maplink.global" title="Maplink" target="_blank"><img src="../../img/maplink.svg" alt="Maplink"></a>
+  </div>
+</footer>
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Slick carousel -->
+<script type="text/javascript" src="../../js/slick-carousel.min.js"></script>
+<!-- Scripts -->
+<script type="text/JavaScript" src="../../js/scripts.js"></script>
+
+	</body>
+
+</html>
