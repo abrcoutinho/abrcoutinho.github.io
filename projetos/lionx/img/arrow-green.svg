@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="52.238" height="52.239" viewBox="0 0 52.238 52.239">
+  <g id="_001-diagonal-arrow" data-name="001-diagonal-arrow" transform="translate(26.119 0.707) rotate(45)">
+    <path id="Arrow_Up_Right" d="M.436,35.5a1.485,1.485,0,0,0,2.1,0L32.945,5.1V16.466a1.5,1.5,0,1,0,2.994,0V1.5a1.487,1.487,0,0,0-1.5-1.5H19.472a1.5,1.5,0,0,0,0,2.994H30.843L.436,33.4A1.485,1.485,0,0,0,.436,35.5Z" transform="translate(0)" fill="#00ce80" stroke="#00ce80" stroke-width="1"/>
+  </g>
+</svg>
