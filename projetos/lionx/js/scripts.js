@@ -116,6 +116,19 @@ $(document).ready(function(){
     $("#form-demo").removeClass("is-active");
   });
 
+  $(".tab-plataforma .details").click(function() {
+    $(".popup-plataforma").toggleClass("is-active");
+  });
+  $(".tab-analytics .details").click(function() {
+    $(".popup-analytics").toggleClass("is-active");
+  });
+  $(".tab-ia .details").click(function() {
+    $(".popup-ia").toggleClass("is-active");
+  });
+  $("#features .close").click(function() {
+    $(".popup").removeClass("is-active");
+  });
+
 
   // Features tabs
   $('.tab button').click(function(){
